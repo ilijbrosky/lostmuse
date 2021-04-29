@@ -25,8 +25,31 @@ public class Bullet : MonoBehaviour
         {
             enemy.TakeDamage(damage);
         }
-        Instantiate(impactEffect, transform.position, transform.rotation);
-
-        Destroy(gameObject);
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "GroundCheck")
+        {
+            Instantiate(impactEffect, transform.position, transform.rotation);
+            Destroy(gameObject);
+        }
+        else if((collision.gameObject.tag == "Enemy"))
+        {
+            Instantiate(impactEffect, transform.position, transform.rotation);
+            Destroy(gameObject);
+        }
+    }
+
+
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Boundaries"))
+        {
+            Destroy(gameObject);
+        }
+    }
+
+
 }
