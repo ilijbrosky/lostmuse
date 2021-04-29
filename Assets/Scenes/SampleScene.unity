@@ -123,6 +123,23 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &99889087 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9119805184031696300, guid: 8e04d8a259512aa4cb74511119c2957a, type: 3}
+  m_PrefabInstance: {fileID: 9119805183012888921}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &99889096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99889087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 566d0d3103a52ae4da206be5b23d844b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &484619562
 GameObject:
   m_ObjectHideFlags: 0
@@ -1686,8 +1703,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 9119805184031696289, guid: 8e04d8a259512aa4cb74511119c2957a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119805184031696289, guid: 8e04d8a259512aa4cb74511119c2957a, type: 3}
       propertyPath: m_JumpForce
       value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119805184031696289, guid: 8e04d8a259512aa4cb74511119c2957a, type: 3}
+      propertyPath: m_WhatIsGround.m_Bits
+      value: 81
       objectReference: {fileID: 0}
     - target: {fileID: 9119805184031696291, guid: 8e04d8a259512aa4cb74511119c2957a, type: 3}
       propertyPath: m_RootOrder
@@ -1731,6 +1756,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9119805184031696291, guid: 8e04d8a259512aa4cb74511119c2957a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119805184031696293, guid: 8e04d8a259512aa4cb74511119c2957a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119805184031696294, guid: 8e04d8a259512aa4cb74511119c2957a, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9119805184031696300, guid: 8e04d8a259512aa4cb74511119c2957a, type: 3}
