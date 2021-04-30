@@ -5,18 +5,19 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
 
-    public float speed = 20f;
-    public int damage = 40;
+    [SerializeField] private float speed = 20f;
+    [SerializeField] private int damage = 40;
+    [Range(0, 10)]
+    [SerializeField] private float destroyTime;
     public Rigidbody2D rb;
     public GameObject impactEffect;
 
-    // Start is called before the first frame update
+    [System.Obsolete]
     void Start()
     {
         rb.velocity = transform.right * speed;
+        DestroyObject(gameObject, destroyTime);
     }
-
-    // Update is called once per frame
 
     private void OnTriggerEnter2D(Collider2D hitInfo)
     {
@@ -40,16 +41,4 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("Boundaries"))
-        {
-            Destroy(gameObject);
-        }
-    }
-
-
 }

@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 5826583380716476626}
   - component: {fileID: 8285288332674359751}
   - component: {fileID: -2582300016558336545}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PaintBullet 1
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -156,5 +156,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   damage: 40
+  destroyTime: 1
   rb: {fileID: 5826583380716476626}
   impactEffect: {fileID: 4501917920878001009, guid: 4cebe852052bcf14ab46107ebfc2e5cd, type: 3}
