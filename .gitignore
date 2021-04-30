@@ -12,10 +12,6 @@
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
-
-git config pull.rebase false  # merge (the default strategy)
-  git config pull.rebase true   # rebase
-  git config pull.ff only       # fast-forward only
   
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*
