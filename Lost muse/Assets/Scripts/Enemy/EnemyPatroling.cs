@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyPatroling : MonoBehaviour
 {
     [SerializeField] private float movingSpeed;
-    [SerializeField] private float attackingMovingSpeed; // скорость врага во время атаки
     [SerializeField] private float fastAttackMovingSpeed; // скорость врага во время атаки
     [SerializeField] private float distanceVisualRay; // Визуальная дистанция луча, который направлен вниз.
     [SerializeField] private float distanceToEnd; // Дистанция луча, который направлен вниз.
@@ -19,6 +18,10 @@ public class EnemyPatroling : MonoBehaviour
         if(isAttack == false)
         {
             Calm();
+        }
+        else
+        {
+            FastAttacking();
         }
         RaycastHit2D groundInfo = Physics2D.Raycast(groundDetector.position, -Vector3.up, distanceToEnd, layerMask); // Луч, который направлен вниз, для обнаружения платформы
 
@@ -53,11 +56,6 @@ public class EnemyPatroling : MonoBehaviour
         transform.Translate(Vector2.right * movingSpeed * Time.fixedDeltaTime); // Движение энеми в спокойном состоянии 
     }
 
-    public void Attacking()
-    {
-        transform.Translate(Vector2.right * attackingMovingSpeed * Time.fixedDeltaTime); // Движение энеми во время атаки, контролируется переменной "attackingMovingSpeed"
-    }
-    
     public void FastAttacking()
     {
         transform.Translate(Vector2.right * fastAttackMovingSpeed * Time.fixedDeltaTime); // Движение энеми во время атаки, контролируется переменной "attackingMovingSpeed"

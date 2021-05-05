@@ -2799,8 +2799,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movingSpeed: 0.1
-  attackingMovingSpeed: 0.2
-  fastAttackMovingSpeed: 0.25
+  fastAttackMovingSpeed: 0.4
   distanceVisualRay: 0.1
   distanceToEnd: 0.1
   isAttack: 0
@@ -2821,13 +2820,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a74e24cb9701f4a47b7dacec7f8a9118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rayCastLegth: 0.3
-  backRayCastLegth: 0.5
-  fastAttackLegth: 1
+  rayCastLength: 0.2
+  backRayCastLength: 0.8
+  fastAttackLength: 1
   layerMask:
     serializedVersion: 2
     m_Bits: 128
-  anim: {fileID: 2048730556}
+  isReadyFastAttack: 1
   patrolingScript: {fileID: 2048730559}
   fastAttackDetector: {fileID: 445465737}
 --- !u!1001 &149840835256727725

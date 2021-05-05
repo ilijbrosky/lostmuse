@@ -1,64 +1,74 @@
 
 using UnityEngine;
-
 public class PlayerDetector : MonoBehaviour
 {
 
-    [SerializeField] private float rayCastLength;
-    [SerializeField] private float backRayCastLength;
-    [SerializeField] private float fastAttackLength;
-    [SerializeField] private LayerMask layerMask;
-    [SerializeField] private Animator anim;
+    [SerializeField] private float rayCastLength; // Дальность для срабатывания ближней атаки врага.
+    [SerializeField] private float backRayCastLength; // Дальность вычесления игрока, если он появляется за спиной врага
+    [SerializeField] private float fastAttackLength; // Дальность срабатывания рывка для атаки.
+    [SerializeField] private LayerMask layerMask; 
+    [SerializeField] private bool isReadyFastAttack = true;
     public EnemyPatroling patrolingScript;
     public Transform fastAttackDetector;
+    private Animator anim;
     RaycastHit2D hit, backHit, fastAttackHit;
+
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
+
+
     private void Update()
     {
-        hit = Physics2D.Raycast(transform.position, transform.right, rayCastLength, layerMask); // Лук, который выпущен в направлении движения врага. Реагирует на Слой установленный в Layer Mask. 
-        backHit = Physics2D.Raycast(transform.position, -transform.right, backRayCastLength, layerMask);
-        fastAttackHit = Physics2D.Raycast(fastAttackDetector.position, transform.right, fastAttackLength, layerMask);
+        hit = Physics2D.Raycast(transform.position, transform.right, rayCastLength, layerMask); // Луч, который выпущен в направлении движения врага. Реагирует на Слой установленный в Layer Mask. 
+        backHit = Physics2D.Raycast(transform.position, -transform.right, backRayCastLength, layerMask); // Луч, который выпущен со спины врага и проверяет наявность игрока за спиной врага.
+        fastAttackHit = Physics2D.Raycast(fastAttackDetector.position, transform.right, fastAttackLength, layerMask); // Луч, выпущен в направлении движения врага, для срабатывания рывка.
 
 
-        if (hit.collider != null) // Если лук попал в коллайдер, который принадлежит к установленному в Layer Mask слою. Выполняет условие.
+        if (hit.collider != null) // Если луч попал в коллайдер, который принадлежит к установленному в Layer Mask слою. Выполняет условие.
         {
             anim.SetBool("isPlayer", true);
-            patrolingScript.Attacking(); // Вызывает метод атаки, который находится в скрипте EnemyPatroling 
+            patrolingScript.Calm(); // Вызывает метод атаки, который находится в скрипте EnemyPatroling 
             patrolingScript.isAttack = true;
-            fastAttackLength = 0f;
+            isReadyFastAttack = false; // Выключение красного луча, чтобы не было конфликта между зелёным и красным лучом.
+            anim.SetBool("isFastAttack", false);
         }
-        else if(hit.collider == null)
+        else if(hit.collider == null) 
         {
             anim.SetBool("isPlayer", false);
+            isReadyFastAttack = true; // Включение луча красного луча, когда персонаж покидает область видимости зелёного луча. 
             patrolingScript.isAttack = false;
-            fastAttackLength = 1f;
         }
-        if(backHit.collider != null)
+        if(backHit.collider != null) // Проверка луча, который выпущен со спины врага. На наличие игрока за спиной врага. 
         {
             if(patrolingScript.isRight == true)
             {
-                patrolingScript.LeftRotate();
-                patrolingScript.Attacking(); // Вызывает метод атаки, который находится в скрипте EnemyPatroling 
+                patrolingScript.LeftRotate(); // Если игрок за спиной врага. И враг движется вправо. Здесь срабатывает поворот врага в сторону игрока.
+                patrolingScript.FastAttacking(); // Вызывает метод атаки, который находится в скрипте EnemyPatroling 
                 patrolingScript.isAttack = true;
             }
             else if(patrolingScript.isRight != true)
             {
-                patrolingScript.RightRotate();
-                patrolingScript.Attacking(); // Вызывает метод атаки, который находится в скрипте EnemyPatroling 
+                patrolingScript.RightRotate(); // Если игрок за спиной врага. И враг движется влево. Здесь срабатывает поворот врага в сторону игрока.
+                patrolingScript.FastAttacking(); // Вызывает метод атаки, который находится в скрипте EnemyPatroling 
                 patrolingScript.isAttack = true;
             }
         }
-        if (fastAttackHit.collider != null)
+        if(isReadyFastAttack == true) // Проверка, может ли враг быстро атаковать или нет. Скорость движения во время атаки регулируется в инспекторе.
         {
-            patrolingScript.FastAttacking();
-            anim.SetBool("isFastAttack", true);
+            if (fastAttackHit.collider != null)  // Проверка луча, который выпущен впереди врага, для обнаружения игрока. Если игрок обнаружен, срабатывает рывок.
+            {
+                patrolingScript.FastAttacking();
+                anim.SetBool("isFastAttack", true);
+            }
+            else if (fastAttackHit.collider == null)
+            {
+                anim.SetBool("isFastAttack", false);
+            }
         }
-        else if(fastAttackHit.collider == null)
-        {
-            anim.SetBool("isFastAttack", false);
-        }
-
-        Debug.DrawRay(transform.position, transform.right * rayCastLength, Color.yellow); // Вызуализация луча
-        Debug.DrawRay(transform.position, -transform.right * backRayCastLength, Color.yellow); // Вызуализация луча
-        Debug.DrawRay(fastAttackDetector.position, transform.right * fastAttackLength, Color.red); // Вызуализация луча
+        Debug.DrawRay(transform.position, transform.right * rayCastLength, Color.green); // Вызуализация луча, который выпущен впереди врага, для обычной атаки.
+        Debug.DrawRay(transform.position, -transform.right * backRayCastLength, Color.yellow); // Вызуализация луча, который выпущен сзади врага, для обнаружения игрока.
+        Debug.DrawRay(fastAttackDetector.position, transform.right * fastAttackLength, Color.red); // Вызуализация луча, который выпущен впереди врага, для рывка.
     }
 }
