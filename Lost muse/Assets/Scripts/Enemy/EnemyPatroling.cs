@@ -15,11 +15,11 @@ public class EnemyPatroling : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(isAttack == false)
+        if (isAttack == false)
         {
             Calm();
         }
-        else
+        else if (isAttack == true)
         {
             FastAttacking();
         }
@@ -60,6 +60,5 @@ public class EnemyPatroling : MonoBehaviour
     {
         transform.Translate(Vector2.right * fastAttackMovingSpeed * Time.fixedDeltaTime); // Движение энеми во время атаки, контролируется переменной "attackingMovingSpeed"
     }
-
 
 }

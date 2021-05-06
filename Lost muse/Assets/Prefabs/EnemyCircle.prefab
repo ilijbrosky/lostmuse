@@ -75,7 +75,6 @@ GameObject:
   - component: {fileID: 6088452609605738746}
   - component: {fileID: 6088452609605738751}
   - component: {fileID: 6088452609605738624}
-  - component: {fileID: 1031362188374913670}
   m_Layer: 9
   m_Name: EnemyCircle
   m_TagString: Enemy
@@ -177,7 +176,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6088452609605738745}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -259,15 +258,3 @@ MonoBehaviour:
   isReadyFastAttack: 1
   patrolingScript: {fileID: 6088452609605738751}
   fastAttackDetector: {fileID: 6088452608002474441}
---- !u!114 &1031362188374913670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6088452609605738745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf348e2a65c780343b86e62386a26bca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

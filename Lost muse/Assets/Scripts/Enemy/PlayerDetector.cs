@@ -30,13 +30,13 @@ public class PlayerDetector : MonoBehaviour
         if (hit.collider != null) // Если луч попал в коллайдер, который принадлежит к установленному в Layer Mask слою. Выполняет условие.
         {
             anim.SetBool("isPlayer", true);
-            patrolingScript.Calm(); // Вызывает метод атаки, который находится в скрипте EnemyPatroling 
             patrolingScript.isAttack = true;
             isReadyFastAttack = false; // Выключение красного луча, чтобы не было конфликта между зелёным и красным лучом.
             anim.SetBool("isFastAttack", false);
         }
         else if(hit.collider == null) 
         {
+            patrolingScript.isAttack = false;
             anim.SetBool("isPlayer", false);
             isReadyFastAttack = true; // Включение луча красного луча, когда персонаж покидает область видимости зелёного луча. 
             patrolingScript.isAttack = false;
@@ -45,26 +45,25 @@ public class PlayerDetector : MonoBehaviour
         {
             if(patrolingScript.isRight == true)
             {
-                patrolingScript.LeftRotate(); // Если игрок за спиной врага. И враг движется вправо. Здесь срабатывает поворот врага в сторону игрока.
-                patrolingScript.FastAttacking(); // Вызывает метод атаки, который находится в скрипте EnemyPatroling 
                 patrolingScript.isAttack = true;
+                patrolingScript.LeftRotate(); // Если игрок за спиной врага. И враг движется вправо. Здесь срабатывает поворот врага в сторону игрока.
             }
             else if(patrolingScript.isRight != true)
             {
+                patrolingScript.isAttack = false;
                 patrolingScript.RightRotate(); // Если игрок за спиной врага. И враг движется влево. Здесь срабатывает поворот врага в сторону игрока.
-                patrolingScript.FastAttacking(); // Вызывает метод атаки, который находится в скрипте EnemyPatroling 
-                patrolingScript.isAttack = true;
             }
         }
         if(isReadyFastAttack == true) // Проверка, может ли враг быстро атаковать или нет. Скорость движения во время атаки регулируется в инспекторе.
         {
             if (fastAttackHit.collider != null)  // Проверка луча, который выпущен впереди врага, для обнаружения игрока. Если игрок обнаружен, срабатывает рывок.
             {
-                patrolingScript.FastAttacking();
+                patrolingScript.isAttack = true;
                 anim.SetBool("isFastAttack", true);
             }
             else if (fastAttackHit.collider == null)
             {
+                patrolingScript.isAttack = false;
                 anim.SetBool("isFastAttack", false);
             }
         }
