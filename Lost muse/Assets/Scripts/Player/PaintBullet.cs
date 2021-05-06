@@ -4,21 +4,37 @@ using UnityEngine;
 
 public class PaintBullet : MonoBehaviour
 {
-    // Start is called before the first frame update
     public Transform bulletPoint;
     public GameObject bulletPrefab;
+    private Animator anim;
+    [SerializeField] private float fireRate;
+    private float nextFire;
+    public CharacterController2D characterController;
 
-    // Update is called once per frame
+    private void Start()
+    {
+        nextFire = Time.time;
+        anim = GetComponent<Animator>();
+    }
+
     void Update()
     {
-        if (Input.GetButtonDown("Shoot"))
+        if(characterController.m_CanShoot == true)
         {
-            Shoot();
+            if (Input.GetButtonDown("Shoot"))
+            {
+                Shoot();
+            }
         }
     }
     void Shoot()
     {
-        Instantiate(bulletPrefab, bulletPoint.position, bulletPoint.rotation);
-
+        if (Time.time > nextFire)
+        {
+            nextFire = Time.time + fireRate;
+            Instantiate(bulletPrefab, bulletPoint.position, bulletPoint.rotation);
+            anim.SetTrigger("Attack");
+        }
+        
     }
 }

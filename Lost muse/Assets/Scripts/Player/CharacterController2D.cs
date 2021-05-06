@@ -1,25 +1,38 @@
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections;
+using System.Collections.Generic;
 
 public class CharacterController2D : MonoBehaviour
 {
-	[SerializeField] private float m_JumpForce = 400f;                          // Amount of force added when the player jumps.
+	[SerializeField] private float m_JumpForce;                          // Amount of force added when the player jumps.
+	[SerializeField] private float m_grabSpeedModifier;              
+	[SerializeField] private int wallSide;                          // Amount of force added when the player jumps.
 	[Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;          // Amount of maxSpeed applied to crouching movement. 1 = 100%
 	[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;  // How much to smooth out the movement
-	[SerializeField] private bool m_AirControl = false;                         // Whether or not a player can steer while jumping;
-	[SerializeField] private LayerMask m_WhatIsGround, m_climb;                          // A mask determining what is ground to the character
-	[SerializeField] private Transform m_GroundCheck;                           // A position marking where to check if the player is grounded.
-	[SerializeField] private Transform m_CeilingCheck;                          // A position marking where to check for ceilings
-	[SerializeField] private Collider2D m_CrouchDisableCollider, m_circleCollider;                // A collider that will be disabled when crouching
+	
 
 	const float k_GroundedRadius = .03f; // Radius of the overlap circle to determine if grounded
 	private bool m_Grounded;            // Whether or not the player is grounded.
+	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 	const float k_CeilingRadius = .003f; // Radius of the overlap circle to determine if the player can stand up
 	private Rigidbody2D m_Rigidbody2D;
-	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 m_Velocity = Vector3.zero;
+	public bool m_CanShoot = true; // Для определения, может ли стрелять игрок во время прыжка или нет.
+	public PlayerMovement playerMovement;
+	[Header("Collision")]
 
-
+	[SerializeField] private bool m_AirControl = false;                         // Whether or not a player can steer while jumping;
+	public bool m_Wall = false;                         
+	public bool m_RightWall = false;                         
+	public bool m_LeftWall = false;                         
+	[SerializeField] private LayerMask m_WhatIsGround;                          // A mask determining what is ground to the character
+	[SerializeField] private LayerMask m_WhatIsWall;                          // A mask determining what is ground to the character
+	[SerializeField] private Transform m_GroundCheck;                           // A position marking where to check if the player is grounded.
+	[SerializeField] private Transform m_CeilingCheck;                          // A position marking where to check for ceilings
+	[SerializeField] private Collider2D m_CrouchDisableCollider;                // A collider that will be disabled when crouching
+	[SerializeField] private float m_rightOffset;
+	[SerializeField] private float m_leftOffset;
 
 	[Header("Events")]
 	[Space]
@@ -47,7 +60,7 @@ public class CharacterController2D : MonoBehaviour
 	{
 		bool wasGrounded = m_Grounded;
 		m_Grounded = false;
-
+		m_CanShoot = false;
 		// The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
 		// This can be done using layers instead but Sample Assets will not overwrite your project settings.
 		Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
@@ -55,15 +68,40 @@ public class CharacterController2D : MonoBehaviour
 		{
 			if (colliders[i].gameObject != gameObject)
 			{
+
 				m_Grounded = true;
+				m_CanShoot = true; 
 				if (!wasGrounded)
 					OnLandEvent.Invoke();
 			}
 		}
+
+        if (playerMovement.wallGrab == true)
+        {
+			m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, m_grabSpeedModifier);
+			m_Rigidbody2D.gravityScale = 0;
+        }
+		else
+        {
+			m_Rigidbody2D.gravityScale = 1;
+		}
+	}
+
+    private void Update()
+    {
+		m_Wall = Physics2D.Raycast(transform.position, Vector2.right, m_rightOffset, m_WhatIsWall)
+			|| Physics2D.Raycast(transform.position, Vector2.left, m_leftOffset, m_WhatIsWall);
+
+		m_RightWall = Physics2D.Raycast(transform.position, Vector2.right, m_rightOffset, m_WhatIsWall);
+		m_LeftWall = Physics2D.Raycast(transform.position, Vector2.left, m_leftOffset, m_WhatIsWall);
+		wallSide = m_RightWall ? 1 : -1;
+
+		Debug.DrawRay(transform.position, Vector2.right * m_rightOffset, Color.green); // Вызуализация луча, который выпущен сзади врага, для обнаружения игрока.
+		Debug.DrawRay(transform.position, Vector2.left * m_leftOffset, Color.red); // Вызуализация луча, который выпущен впереди врага, для рывка.
 	}
 
 
-	public void Move(float move, bool crouch, bool jump)
+    public void Move(float move, bool crouch, bool jump)
 	{
 		// If crouching, check to see if the character can stand up
 		if (!crouch)
@@ -143,4 +181,5 @@ public class CharacterController2D : MonoBehaviour
 		// Multiply the player's x local scale by -1.
 		transform.Rotate(0f, 180f, 0f);
 	}
+
 }

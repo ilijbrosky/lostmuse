@@ -7,47 +7,45 @@ public class PlayerMovement : MonoBehaviour
 
 	public CharacterController2D controller;
 	public Animator animator;
-	public Collider2D circleCollider;
-	public LayerMask layerMask;
-	public Rigidbody2D rigidBody;
 
-    [SerializeField] private float runSpeed = 40f;
-	[SerializeField] private float climbSpeed = .05f;  // Скорость лазания по горе
-	float horizontalMove = 0f;
-	float verticalMove = 0f;
-	bool jump = false;
-	bool crouch = false;
+    [SerializeField] private float runSpeed;
+	[SerializeField] private bool isCanMove = true;
+
+	private float horizontalMove = 0f;
+	private bool jump = false;
+	private bool crouch = false;
+	public bool wallGrab = false;
 
 	// Update is called once per frame
 	void Update()
 	{
-
-		horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
-
-		animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
-
 		if (Input.GetButtonDown("Jump"))
 		{
 			jump = true;
 			animator.SetBool("IsJumping", true);
-
 		}
 
 		if (Input.GetButtonDown("Crouch"))
 		{
-
 			crouch = true;
+			controller.m_CanShoot = false;
 		}
-		else if(Input.GetButtonUp("Crouch"))
+
+		else if(Input.GetButtonUp("Crouch")) // Надо поменять букву для приседания. Чтобы не было конфликта с движениями Vertical
 		{
 			crouch = false;
+			controller.m_CanShoot = true;
 		}
 
-		if (Input.GetButtonDown("Shoot"))
+        if (controller.m_Wall && Input.GetButtonDown("Grab"))
+        {
+            wallGrab = true;
+        }
+		else if (!controller.m_Wall || Input.GetButtonUp("Grab"))
 		{
-			Attack();
+			wallGrab = false;
+			// Здесь нужно менять анимацию в аниматоре.
 		}
-
 	}
 
 	public void OnLanding()
@@ -60,39 +58,16 @@ public class PlayerMovement : MonoBehaviour
 		animator.SetBool("IsCrouching", isCrouching);
 	}
 
-	public void OnClimbing()
-    {
-		if (!circleCollider.IsTouchingLayers(LayerMask.GetMask("Walls")))
-		{
-			return;
-		}
-		else if (circleCollider.IsTouchingLayers(LayerMask.GetMask("Walls")))
-		{
-			Vector2 climbVelocity = new Vector2(rigidBody.velocity.x, verticalMove * climbSpeed);
-			rigidBody.velocity = climbVelocity;
-
-			bool isVertical = Mathf.Abs(rigidBody.velocity.y) > Mathf.Epsilon;
-
-		}
-
-
-
-		verticalMove = Input.GetAxisRaw("Vertical") * climbSpeed;
-	}
-
 	void FixedUpdate()
 	{
-		// Move our character
-		controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
-		jump = false;
+		if(isCanMove == true)
+        {
+			horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+			animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+			// Move our character
+			controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
+			jump = false;
+		}
 	}
 
-	void Attack()
-	{
-		// Play an attack animation
-		animator.SetTrigger("Attack");
-
-		// Detect enemies in range of attack
-		// Damage them 
-	}
 }
