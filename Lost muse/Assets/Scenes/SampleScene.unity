@@ -1819,6 +1819,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 149840835328179282, guid: d69985df0a2f2c942b99b5903ea9c3c4, type: 3}
+      propertyPath: fireRate
+      value: 1.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 149840835328179285, guid: d69985df0a2f2c942b99b5903ea9c3c4, type: 3}
+      propertyPath: m_JumpForce
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 149840835328179285, guid: d69985df0a2f2c942b99b5903ea9c3c4, type: 3}
+      propertyPath: m_grabSpeedModifier
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 149840835328179287, guid: d69985df0a2f2c942b99b5903ea9c3c4, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1884,6 +1896,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyCircle
       objectReference: {fileID: 0}
+    - target: {fileID: 6088452609605738746, guid: 83ddf1f9cd1b07f40999e89c57903ac0, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6088452609605738750, guid: 83ddf1f9cd1b07f40999e89c57903ac0, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -1927,6 +1943,10 @@ PrefabInstance:
     - target: {fileID: 6088452609605738750, guid: 83ddf1f9cd1b07f40999e89c57903ac0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6088452609605738751, guid: 83ddf1f9cd1b07f40999e89c57903ac0, type: 3}
+      propertyPath: fastAttackMovingSpeed
+      value: 0.15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83ddf1f9cd1b07f40999e89c57903ac0, type: 3}
