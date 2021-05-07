@@ -10,6 +10,8 @@ public class EnemyPatroling : MonoBehaviour
     [SerializeField] private float distanceToEnd; // Дистанция луча, который направлен вниз.
     public bool isAttack = false;
     public bool isRight = true;
+    public bool isGround = true;
+    public bool isMoving = true;
     public Transform groundDetector;
     public LayerMask layerMask;
 
@@ -27,6 +29,7 @@ public class EnemyPatroling : MonoBehaviour
 
         if (groundInfo.collider == null)
         {
+            isGround = false;
             if (isRight == true)
             {
                 LeftRotate();
@@ -35,6 +38,11 @@ public class EnemyPatroling : MonoBehaviour
             {
                 RightRotate();
             }
+        }
+        else
+        {
+            isGround = true;
+
         }
         Debug.DrawRay(groundDetector.position, Vector3.down * distanceVisualRay, Color.red); // Вызуализация луча
     }
@@ -53,12 +61,43 @@ public class EnemyPatroling : MonoBehaviour
 
     public void Calm()
     {
-        transform.Translate(Vector2.right * movingSpeed * Time.fixedDeltaTime); // Движение энеми в спокойном состоянии 
+        if(isGround == true)
+        {
+            if (isMoving == true)
+            {
+                transform.Translate(Vector2.right * movingSpeed * Time.fixedDeltaTime); // Движение энеми в спокойном состоянии 
+            }
+        }
     }
 
     public void FastAttacking()
     {
-        transform.Translate(Vector2.right * fastAttackMovingSpeed * Time.fixedDeltaTime); // Движение энеми во время атаки, контролируется переменной "attackingMovingSpeed"
+        if (isGround == true)
+        {
+            if (isMoving == true)
+            {
+                transform.Translate(Vector2.right * fastAttackMovingSpeed * Time.fixedDeltaTime); // Движение энеми во время атаки, контролируется переменной "attackingMovingSpeed"
+            }
+        }
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            isMoving = false;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            isMoving = true;
+        }
+    }
+
+
+
 
 }

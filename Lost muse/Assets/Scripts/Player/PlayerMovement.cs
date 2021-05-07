@@ -28,13 +28,11 @@ public class PlayerMovement : MonoBehaviour
 		if (Input.GetButtonDown("Crouch"))
 		{
 			crouch = true;
-			controller.m_CanShoot = false;
 		}
 
 		else if(Input.GetButtonUp("Crouch")) // Надо поменять букву для приседания. Чтобы не было конфликта с движениями Vertical
 		{
 			crouch = false;
-			controller.m_CanShoot = true;
 		}
 
         if (controller.m_Wall && Input.GetButtonDown("Grab"))

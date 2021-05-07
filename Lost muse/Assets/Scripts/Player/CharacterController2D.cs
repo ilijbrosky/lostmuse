@@ -60,7 +60,6 @@ public class CharacterController2D : MonoBehaviour
 	{
 		bool wasGrounded = m_Grounded;
 		m_Grounded = false;
-		m_CanShoot = false;
 		// The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
 		// This can be done using layers instead but Sample Assets will not overwrite your project settings.
 		Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
@@ -68,11 +67,13 @@ public class CharacterController2D : MonoBehaviour
 		{
 			if (colliders[i].gameObject != gameObject)
 			{
-
 				m_Grounded = true;
-				m_CanShoot = true; 
-				if (!wasGrounded)
-					OnLandEvent.Invoke();
+                if (!wasGrounded)
+                    OnLandEvent.Invoke();
+				if(m_Grounded && !m_wasCrouching)
+                {
+					m_CanShoot = true;
+                }
 			}
 		}
 
@@ -89,6 +90,11 @@ public class CharacterController2D : MonoBehaviour
 
     private void Update()
     {
+        if (!m_Grounded && !m_wasCrouching)
+        {
+			m_CanShoot = false;
+		}
+
 		m_Wall = Physics2D.Raycast(transform.position, Vector2.right, m_rightOffset, m_WhatIsWall)
 			|| Physics2D.Raycast(transform.position, Vector2.left, m_leftOffset, m_WhatIsWall);
 
@@ -125,6 +131,10 @@ public class CharacterController2D : MonoBehaviour
 					m_wasCrouching = true;
 					OnCrouchEvent.Invoke(true);
 				}
+                else
+                {
+					m_CanShoot = false;
+                }
 
 				// Reduce the speed by the crouchSpeed multiplier
 				move *= m_CrouchSpeed;
