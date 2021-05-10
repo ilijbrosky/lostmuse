@@ -2385,9 +2385,7 @@ PrefabInstance:
       propertyPath: hearts.Array.data[2]
       value: 
       objectReference: {fileID: 1383234244}
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     - target: {fileID: 149840835328179282, guid: d69985df0a2f2c942b99b5903ea9c3c4, type: 3}
       propertyPath: fireRate
       value: 1
