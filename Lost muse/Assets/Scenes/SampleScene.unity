@@ -2372,7 +2372,7 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-<<<<<<< HEAD
+    <<<<<<< HEAD
     - target: {fileID: 383498308, guid: d69985df0a2f2c942b99b5903ea9c3c4, type: 3}
       propertyPath: hearts.Array.data[0]
       value: 
