@@ -2372,7 +2372,7 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    <<<<<<< HEAD
+<<<<<<< HEAD
     - target: {fileID: 383498308, guid: d69985df0a2f2c942b99b5903ea9c3c4, type: 3}
       propertyPath: hearts.Array.data[0]
       value: 
@@ -2386,10 +2386,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1383234244}
 =======
-    - target: {fileID: 149840835328179282, guid: d69985df0a2f2c942b99b5903ea9c3c4, type: 3}
-      propertyPath: fireRate
-      value: 1
-      objectReference: {fileID: 0}
+>>>>>>> remotes/origin/main
 >>>>>>> 84ea70ca639767b6ba0382c4e296efff2e6cce73
     - target: {fileID: 149840835328179285, guid: d69985df0a2f2c942b99b5903ea9c3c4, type: 3}
       propertyPath: m_CrouchSpeed
