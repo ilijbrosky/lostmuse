@@ -11,12 +11,13 @@ GameObject:
   - component: {fileID: 149840835328179287}
   - component: {fileID: 149840835328179284}
   - component: {fileID: 149840835328179290}
-  - component: {fileID: 149840835328179286}
   - component: {fileID: 149840835328179285}
   - component: {fileID: 149840835328179291}
   - component: {fileID: 149840835328179281}
   - component: {fileID: 149840835328179280}
   - component: {fileID: 149840835328179282}
+  - component: {fileID: 1678198967}
+  - component: {fileID: 383498308}
   m_Layer: 7
   m_Name: Painter
   m_TagString: Player
@@ -113,22 +114,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &149840835328179286
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 149840835328179288}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: 19bdc727f3762194ba33c622ede98653, type: 2}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.019381292, y: -0.12044446}
-  serializedVersion: 2
-  m_Radius: 0.03981043
 --- !u!114 &149840835328179285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,8 +126,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df974005a401eb249ad3ea3907c81eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JumpForce: 180
-  m_grabSpeedModifier: 1
+  m_JumpForce: 120
+  m_grabSpeedModifier: 0.2
   wallSide: 0
   m_CrouchSpeed: 0.15
   m_MovementSmoothing: 0.05
@@ -206,7 +191,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.01021111, y: -0.05056226}
+  m_Offset: {x: -0.021235123, y: -0.012182444}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -217,7 +202,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.0611341, y: 0.1403049}
+  m_Size: {x: 0.037452906, y: 0.05047971}
   m_EdgeRadius: 0
 --- !u!114 &149840835328179281
 MonoBehaviour:
@@ -269,8 +254,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPoint: {fileID: 149840836330007360}
   bulletPrefab: {fileID: 8348286115754299486, guid: c2c59a68adf12ff459cf13bfa29ec57f, type: 3}
-  fireRate: 0.3
+  fireRate: 0.5
   characterController: {fileID: 149840835328179285}
+--- !u!70 &1678198967
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149840835328179288}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.022201419, y: -0.09716518}
+  m_Size: {x: 0.048796535, y: 0.12566963}
+  m_Direction: 0
+--- !u!114 &383498308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149840835328179288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09fdb91086a0b864792936e68c8962cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hearts:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  life: 100
 --- !u!1 &149840835710997093
 GameObject:
   m_ObjectHideFlags: 0

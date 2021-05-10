@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 6088452609605738746}
   - component: {fileID: 6088452609605738751}
   - component: {fileID: 6088452609605738624}
+  - component: {fileID: 1810143906}
   m_Layer: 9
   m_Name: EnemyCircle
   m_TagString: Enemy
@@ -180,7 +181,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 10
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -202,7 +203,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.048795827}
+  m_Offset: {x: 0.003113903, y: -0.002194181}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -213,7 +214,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.15, y: 0.18759166}
+  m_Size: {x: 0.1437722, y: 0.071599126}
   m_EdgeRadius: 0
 --- !u!114 &6088452609605738751
 MonoBehaviour:
@@ -227,12 +228,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65dafd8b1ed483e4ea68605f507642f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movingSpeed: 0.1
-  fastAttackMovingSpeed: 0.4
+  movingSpeed: 0.3
+  fastAttackMovingSpeed: 0.8
   distanceVisualRay: 0.1
   distanceToEnd: 0.1
   isAttack: 0
   isRight: 1
+  isGround: 1
+  isMoving: 1
   groundDetector: {fileID: 6088452608412000677}
   layerMask:
     serializedVersion: 2
@@ -258,3 +261,16 @@ MonoBehaviour:
   isReadyFastAttack: 1
   patrolingScript: {fileID: 6088452609605738751}
   fastAttackDetector: {fileID: 6088452608002474441}
+--- !u!114 &1810143906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6088452609605738745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b07c63ce60685448ffa0e11b66bbec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHealth: {fileID: 0}

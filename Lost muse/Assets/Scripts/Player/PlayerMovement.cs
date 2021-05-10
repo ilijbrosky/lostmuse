@@ -16,45 +16,33 @@ public class PlayerMovement : MonoBehaviour
 	private bool crouch = false;
 	public bool wallGrab = false;
 
-	// Update is called once per frame
-	void Update()
-	{
-		if (Input.GetButtonDown("Jump"))
-		{
-			jump = true;
-			animator.SetBool("IsJumping", true);
-		}
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetButtonDown("Jump"))
+        {
+            jump = true;
+        }
 
-		if (Input.GetButtonDown("Crouch"))
-		{
-			crouch = true;
-		}
+        if (Input.GetButtonDown("Crouch"))
+        {
+            crouch = true;
+        }
 
-		else if(Input.GetButtonUp("Crouch")) // Надо поменять букву для приседания. Чтобы не было конфликта с движениями Vertical
-		{
-			crouch = false;
-		}
+        else if (Input.GetButtonUp("Crouch")) // Надо поменять букву для приседания. Чтобы не было конфликта с движениями Vertical
+        {
+            crouch = false;
+        }
 
         if (controller.m_Wall && Input.GetButtonDown("Grab"))
         {
             wallGrab = true;
         }
-		else if (!controller.m_Wall || Input.GetButtonUp("Grab"))
-		{
-			wallGrab = false;
-			// Здесь нужно менять анимацию в аниматоре.
-		}
-	}
-
-	public void OnLanding()
-	{
-		animator.SetBool("IsJumping", false);
-	}
-
-	public void OnCrouching(bool isCrouching)
-	{
-		animator.SetBool("IsCrouching", isCrouching);
-	}
+        else if (!controller.m_Wall || Input.GetButtonUp("Grab"))
+        {
+            wallGrab = false;
+        }
+    }
 
 	void FixedUpdate()
 	{

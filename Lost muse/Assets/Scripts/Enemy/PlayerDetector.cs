@@ -11,11 +11,14 @@ public class PlayerDetector : MonoBehaviour
     [SerializeField] private bool isReadyFastAttack = true;
     public EnemyPatroling patrolingScript;
     public Transform fastAttackDetector;
+    private BoxCollider2D boxCollider;
     private Animator anim;
+    
     RaycastHit2D hit, backHit, fastAttackHit;
 
     private void Start()
     {
+        boxCollider = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
     }
 
@@ -58,6 +61,7 @@ public class PlayerDetector : MonoBehaviour
         {
             if (fastAttackHit.collider != null)  // Проверка луча, который выпущен впереди врага, для обнаружения игрока. Если игрок обнаружен, срабатывает рывок.
             {
+                
                 patrolingScript.isAttack = true;
                 anim.SetBool("isFastAttack", true);
             }
@@ -67,6 +71,13 @@ public class PlayerDetector : MonoBehaviour
                 anim.SetBool("isFastAttack", false);
             }
         }
+
+        if (Physics2D.IsTouchingLayers(boxCollider, LayerMask.GetMask("Painter")))
+        {
+            anim.SetBool("isPlayer", true);
+            patrolingScript.isAttack = true;
+        }
+
         Debug.DrawRay(transform.position, transform.right * rayCastLength, Color.green); // Вызуализация луча, который выпущен впереди врага, для обычной атаки.
         Debug.DrawRay(transform.position, -transform.right * backRayCastLength, Color.yellow); // Вызуализация луча, который выпущен сзади врага, для обнаружения игрока.
         Debug.DrawRay(fastAttackDetector.position, transform.right * fastAttackLength, Color.red); // Вызуализация луча, который выпущен впереди врага, для рывка.

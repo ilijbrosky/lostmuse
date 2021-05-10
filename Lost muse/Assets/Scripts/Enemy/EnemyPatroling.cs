@@ -96,8 +96,4 @@ public class EnemyPatroling : MonoBehaviour
             isMoving = true;
         }
     }
-
-
-
-
 }

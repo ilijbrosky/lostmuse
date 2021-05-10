@@ -10,8 +10,8 @@ public class CharacterController2D : MonoBehaviour
 	[SerializeField] private int wallSide;                          // Amount of force added when the player jumps.
 	[Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;          // Amount of maxSpeed applied to crouching movement. 1 = 100%
 	[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;  // How much to smooth out the movement
-	
 
+	private Animator anim;
 	const float k_GroundedRadius = .03f; // Radius of the overlap circle to determine if grounded
 	private bool m_Grounded;            // Whether or not the player is grounded.
 	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
@@ -19,6 +19,7 @@ public class CharacterController2D : MonoBehaviour
 	private Rigidbody2D m_Rigidbody2D;
 	private Vector3 m_Velocity = Vector3.zero;
 	public bool m_CanShoot = true; // Для определения, может ли стрелять игрок во время прыжка или нет.
+	public bool m_isCrouching = false; 
 	public PlayerMovement playerMovement;
 	[Header("Collision")]
 
@@ -47,6 +48,7 @@ public class CharacterController2D : MonoBehaviour
 
 	private void Awake()
 	{
+		anim = GetComponent<Animator>();
 		m_Rigidbody2D = GetComponent<Rigidbody2D>();
 
 		if (OnLandEvent == null)
@@ -73,7 +75,8 @@ public class CharacterController2D : MonoBehaviour
 				if(m_Grounded && !m_wasCrouching)
                 {
 					m_CanShoot = true;
-                }
+					anim.SetBool("IsJumping", false);
+				}
 			}
 		}
 
@@ -90,9 +93,11 @@ public class CharacterController2D : MonoBehaviour
 
     private void Update()
     {
-        if (!m_Grounded && !m_wasCrouching)
+
+		if (!m_Grounded && !m_wasCrouching)
         {
-			m_CanShoot = false;
+            m_CanShoot = false;
+			anim.SetBool("IsJumping", true);
 		}
 
 		m_Wall = Physics2D.Raycast(transform.position, Vector2.right, m_rightOffset, m_WhatIsWall)
@@ -110,49 +115,46 @@ public class CharacterController2D : MonoBehaviour
     public void Move(float move, bool crouch, bool jump)
 	{
 		// If crouching, check to see if the character can stand up
-		if (!crouch)
+		if (Physics2D.IsTouchingLayers(m_CrouchDisableCollider, LayerMask.GetMask("GroundCheck")))
 		{
-			// If the character has a ceiling preventing them from standing up, keep them crouching
-			if (Physics2D.OverlapCircle(m_CeilingCheck.position, k_CeilingRadius, m_WhatIsGround))
-			{
+            if (m_isCrouching)
+            {
 				crouch = true;
+				Debug.Log("222");
+			}
+            else
+            {
+				crouch = false;
 			}
 		}
 
 		//only control the player if grounded or airControl is turned on
 		if (m_Grounded || m_AirControl)
 		{
-
 			// If crouching
 			if (crouch)
 			{
+				anim.SetBool("IsCrouching", true);
+				m_CrouchDisableCollider.isTrigger = true;
 				if (!m_wasCrouching)
 				{
 					m_wasCrouching = true;
-					OnCrouchEvent.Invoke(true);
 				}
                 else
                 {
 					m_CanShoot = false;
-                }
-
+				}
 				// Reduce the speed by the crouchSpeed multiplier
 				move *= m_CrouchSpeed;
 
-				// Disable one of the colliders when crouching
-				if (m_CrouchDisableCollider != null)
-					m_CrouchDisableCollider.enabled = false;
 			}
 			else
 			{
-				// Enable the collider when not crouching
-				if (m_CrouchDisableCollider != null)
-					m_CrouchDisableCollider.enabled = true;
-
+				anim.SetBool("IsCrouching", false);
 				if (m_wasCrouching)
 				{
+					m_CrouchDisableCollider.isTrigger = false;
 					m_wasCrouching = false;
-					OnCrouchEvent.Invoke(false);
 				}
 			}
 
