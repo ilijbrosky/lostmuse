@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BulletExplossion
+  m_Name: PainterMoveWall
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,16 +20,14 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: de7dbb9e730399f48812e399a6818810, type: 3}
-    - time: 0.083333336
-      value: {fileID: 21300000, guid: 0806594e1ea03c742825c143302b74f3, type: 3}
-    - time: 0.16666667
-      value: {fileID: 21300000, guid: 7747f238cac6e0544a1bf86b8c9d10be, type: 3}
+      value: {fileID: 21300000, guid: b4ff0f1803082d04ba39be135f550091, type: 3}
+    - time: 0.33333334
+      value: {fileID: 21300000, guid: b4519aa9416a77d4c8686d5e49814cc2, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
-  m_SampleRate: 12
+  m_SampleRate: 3
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -44,9 +42,8 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: de7dbb9e730399f48812e399a6818810, type: 3}
-    - {fileID: 21300000, guid: 0806594e1ea03c742825c143302b74f3, type: 3}
-    - {fileID: 21300000, guid: 7747f238cac6e0544a1bf86b8c9d10be, type: 3}
+    - {fileID: 21300000, guid: b4ff0f1803082d04ba39be135f550091, type: 3}
+    - {fileID: 21300000, guid: b4519aa9416a77d4c8686d5e49814cc2, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -71,11 +68,4 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events:
-  - time: 0.6666667
-    functionName: OnDestroy
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
+  m_Events: []
