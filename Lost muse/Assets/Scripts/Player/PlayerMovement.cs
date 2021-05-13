@@ -9,16 +9,17 @@ public class PlayerMovement : MonoBehaviour
 	public Animator animator;
 
     [SerializeField] private float runSpeed;
-	[SerializeField] private bool isCanMove = true;
 
 	private float horizontalMove = 0f;
 	private bool jump = false;
 	private bool crouch = false;
-	public bool wallGrab = false;
 
     // Update is called once per frame
     void Update()
     {
+        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+
         if (Input.GetButtonDown("Jump"))
         {
             jump = true;
@@ -27,33 +28,35 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Crouch"))
         {
             crouch = true;
+            controller.m_sit = true;
         }
 
-        else if (Input.GetButtonUp("Crouch")) // Надо поменять букву для приседания. Чтобы не было конфликта с движениями Vertical
+        else if (Input.GetButtonUp("Crouch")) 
         {
+
             crouch = false;
         }
 
         if (controller.m_Wall && Input.GetButtonDown("Grab"))
         {
-            wallGrab = true;
+            controller.m_Grabbing = true;
         }
         else if (!controller.m_Wall || Input.GetButtonUp("Grab"))
         {
-            wallGrab = false;
+            controller.m_Grabbing = false;
         }
     }
 
-	void FixedUpdate()
-	{
-		if(isCanMove == true)
-        {
-			horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
-			animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
-			// Move our character
-			controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
-			jump = false;
-		}
-	}
+    public void OnCrouching(bool isCrouching)
+    {
+        animator.SetBool("IsCrouching", isCrouching);
+        animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+    }
 
+    void FixedUpdate()
+    {
+        // Move our character
+        controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
+        jump = false;
+    }
 }

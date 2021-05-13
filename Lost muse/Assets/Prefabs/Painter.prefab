@@ -129,14 +129,14 @@ MonoBehaviour:
   m_JumpForce: 120
   m_grabSpeedModifier: 0.2
   wallSide: 0
-  m_CrouchSpeed: 0.15
-  m_MovementSmoothing: 0.05
+  m_CrouchSpeed: 0.21
   m_CanShoot: 1
   playerMovement: {fileID: 149840835328179281}
-  m_AirControl: 1
   m_Wall: 0
   m_RightWall: 0
   m_LeftWall: 0
+  m_sit: 0
+  m_Grabbing: 0
   m_WhatIsGround:
     serializedVersion: 2
     m_Bits: 64
@@ -148,21 +148,6 @@ MonoBehaviour:
   m_CrouchDisableCollider: {fileID: 149840835328179291}
   m_rightOffset: 0.07
   m_leftOffset: 0.07
-  OnLandEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 149840835328179281}
-        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
-        m_MethodName: OnLanding
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   OnCrouchEvent:
     m_PersistentCalls:
       m_Calls:
@@ -178,6 +163,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  m_wasCrouching: 0
 --- !u!61 &149840835328179291
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -191,7 +177,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.021235123, y: -0.012182444}
+  m_Offset: {x: -0.025309056, y: -0.014735982}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -202,7 +188,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.037452906, y: 0.05047971}
+  m_Size: {x: 0.041513026, y: 0.13682875}
   m_EdgeRadius: 0
 --- !u!114 &149840835328179281
 MonoBehaviour:
@@ -219,8 +205,6 @@ MonoBehaviour:
   controller: {fileID: 149840835328179285}
   animator: {fileID: 149840835328179280}
   runSpeed: 5
-  isCanMove: 1
-  wallGrab: 0
 --- !u!95 &149840835328179280
 Animator:
   serializedVersion: 3
@@ -265,12 +249,12 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 149840835328179288}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 19bdc727f3762194ba33c622ede98653, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.022201419, y: -0.09716518}
-  m_Size: {x: 0.048796535, y: 0.12566963}
+  m_Offset: {x: -0.021329533, y: -0.09716518}
+  m_Size: {x: 0.05174377, y: 0.13}
   m_Direction: 0
 --- !u!114 &383498308
 MonoBehaviour:
