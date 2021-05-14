@@ -8,12 +8,12 @@ public class EnemyPatroling : MonoBehaviour
     [SerializeField] private float fastAttackMovingSpeed; // скорость врага во время атаки
     [SerializeField] private float distanceVisualRay; // Визуальная дистанция луча, который направлен вниз.
     [SerializeField] private float distanceToEnd; // Дистанция луча, который направлен вниз.
+    [SerializeField] private Transform groundDetector;
+    [SerializeField] private LayerMask layerMask;
     public bool isAttack = false;
-    public bool isRight = true;
     public bool isGround = true;
-    public bool isMoving = true;
-    public Transform groundDetector;
-    public LayerMask layerMask;
+    public bool isRight = true;
+    private bool isMoving = true;
 
     void FixedUpdate()
     {
@@ -65,7 +65,7 @@ public class EnemyPatroling : MonoBehaviour
         {
             if (isMoving == true)
             {
-                transform.Translate(Vector2.right * movingSpeed * Time.fixedDeltaTime); // Движение энеми в спокойном состоянии 
+                transform.Translate(Vector3.right * movingSpeed * Time.fixedDeltaTime); // Движение энеми в спокойном состоянии 
             }
         }
     }
@@ -76,7 +76,7 @@ public class EnemyPatroling : MonoBehaviour
         {
             if (isMoving == true)
             {
-                transform.Translate(Vector2.right * fastAttackMovingSpeed * Time.fixedDeltaTime); // Движение энеми во время атаки, контролируется переменной "attackingMovingSpeed"
+                transform.Translate(Vector3.right * fastAttackMovingSpeed * Time.fixedDeltaTime); // Движение энеми во время атаки, контролируется переменной "attackingMovingSpeed"
             }
         }
     }
