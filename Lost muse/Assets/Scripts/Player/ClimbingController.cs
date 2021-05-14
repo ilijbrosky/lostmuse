@@ -16,42 +16,43 @@ public class ClimbingController : MonoBehaviour
     public float wallCheckRayDistance = 1f;
 
 
-
     public LayerMask whatIsGround;
 
-    void Update()
+
+    void FixedUpdate()
     {
         ChekingWall();
+        ChekingLedge();
     }
 
     private void ChekingWall()
     {
         onWallUp = Physics2D.Raycast(WallCheckUp.position, transform.right, wallCheckRayDistance, whatIsGround);
         onWallDown = Physics2D.Raycast(WallCheckDown.position, transform.right, wallCheckRayDistance, whatIsGround);
-        onLedge = Physics2D.Raycast(LedgeCorrect.position, transform.right, wallCheckRayDistance, whatIsGround);
-        if (onWallDown)
-        {
-            if (onLedge)
-            {
-                onLedge = false;
-            }
-            else
-            {
-                onLedge = true;
-            }
-        }
     } 
 
+    private void ChekingLedge()
+    {
+        if (onWallDown && !onWallUp)
+        {
+            onLedge = !Physics2D.Raycast(LedgeCorrect.position, transform.right, wallCheckRayDistance, whatIsGround);
+        }
+        else
+        {
+            onLedge = false;
+        }
+
+        if (onLedge)
+        {
+            controller.m_CanFlip = false;
+            controller.m_ledge = true;
+        }
+    }
 
     private void OnDrawGizmos()
     {
         Debug.DrawRay(WallCheckUp.position, transform.right * wallCheckRayDistance, Color.blue);
         Debug.DrawRay(WallCheckDown.position, transform.right * wallCheckRayDistance, Color.blue);
         Debug.DrawRay(LedgeCorrect.position, transform.right * wallCheckRayDistance, Color.red);
-
     }
-
-
-
-
 }

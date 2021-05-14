@@ -23,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump"))
         {
             jump = true;
+            controller.m_CanClimb = false;
+            controller.offsetDisable = true;
         }
 
         if (Input.GetButtonDown("Crouch"))
@@ -40,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
         if (controller.m_Wall && Input.GetButtonDown("Grab"))
         {
             controller.m_Grabbing = true;
+            controller.LedgeDetector();
         }
         else if (!controller.m_Wall || Input.GetButtonUp("Grab"))
         {
