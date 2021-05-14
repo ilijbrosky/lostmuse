@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS0649: Полю "ClimbingController.ledgeBotPos" нигде не присваивается значение, поэтому оно всегда будет иметь значение по умолчанию .
+dotnet_diagnostic.CS0649.severity = silent
