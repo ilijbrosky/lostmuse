@@ -21,7 +21,7 @@ TagManager:
   - Enemy
   - Bullet
   - Walls
-  - 
+  - Climb
   - 
   - 
   - 
@@ -47,4 +47,10 @@ TagManager:
     locked: 0
   - name: Particle
     uniqueID: 1137452129
+    locked: 0
+  - name: Player
+    uniqueID: 3189954435
+    locked: 0
+  - name: Canvas
+    uniqueID: 4173302257
     locked: 0

@@ -1,5 +1,65 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &70685478
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 70685479}
+  m_Layer: 7
+  m_Name: WallCheckDown
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &70685479
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70685478}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.007, y: -0.026, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 149840835328179287}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1593792975
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1593792976}
+  m_Layer: 7
+  m_Name: WallCheckUp
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1593792976
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593792975}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.007, y: 0.084, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 149840835328179287}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &149840835328179288
 GameObject:
   m_ObjectHideFlags: 0
@@ -18,6 +78,7 @@ GameObject:
   - component: {fileID: 149840835328179282}
   - component: {fileID: 1678198967}
   - component: {fileID: 383498308}
+  - component: {fileID: 1848578395}
   m_Layer: 7
   m_Name: Painter
   m_TagString: Player
@@ -39,6 +100,8 @@ Transform:
   - {fileID: 149840835710997092}
   - {fileID: 149840836356837917}
   - {fileID: 149840836330007360}
+  - {fileID: 1593792976}
+  - {fileID: 70685479}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -79,9 +142,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1105012861
+  m_SortingLayer: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: f92aa8f2c4d156a4594ccee465651316, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -126,17 +189,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df974005a401eb249ad3ea3907c81eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_CrouchSpeed: 0.21
   m_JumpForce: 120
   m_grabSpeedModifier: 0.2
-  wallSide: 0
-  m_CrouchSpeed: 0.21
+  m_AirControl: 0
   m_CanShoot: 1
-  playerMovement: {fileID: 149840835328179281}
   m_Wall: 0
   m_RightWall: 0
   m_LeftWall: 0
   m_sit: 0
   m_Grabbing: 0
+  m_FacingRight: 1
+  m_CanMove: 1
+  m_CanFlip: 1
+  playerMovement: {fileID: 149840835328179281}
   m_WhatIsGround:
     serializedVersion: 2
     m_Bits: 64
@@ -273,6 +339,31 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   life: 100
+--- !u!114 &1848578395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149840835328179288}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1504af2fe57e389489995d4b8aa9ebc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ledgeCheck: {fileID: 1593792976}
+  controller: {fileID: 149840835328179285}
+  isTouchingLedge: 0
+  isCanClimbLedge: 0
+  isLedgeDetected: 0
+  wallCheckDistance: 0
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 4096
+  ledgeClimbXOffset1: -0.1
+  ledgeClimbYOffset1: -0.5
+  ledgeClimbXOffset2: 0.8
+  ledgeClimbYOffset2: 2
 --- !u!1 &149840835710997093
 GameObject:
   m_ObjectHideFlags: 0
