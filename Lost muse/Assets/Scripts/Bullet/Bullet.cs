@@ -6,7 +6,6 @@ public class Bullet : MonoBehaviour
 {
 
     [SerializeField] private float speed;
-    [SerializeField] private int damage = 40;
     [Range(0, 10)]
     [SerializeField] private float destroyTime;
     public Rigidbody2D rb;
@@ -25,32 +24,27 @@ public class Bullet : MonoBehaviour
         transform.Translate(Vector2.right * speed * Time.fixedDeltaTime);
     }
 
-    private void OnTriggerEnter2D(Collider2D hitInfo)
-    {
-        Enemy enemy = hitInfo.GetComponent<Enemy>();
-        if (enemy != null)
-        {
-            enemy.TakeDamage(damage);
-        }
-
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "GroundCheck")
+        if (collision.gameObject.layer == 6) // GroundCheck layer
         {
             Instantiate(impactEffect, transform.position, transform.rotation);
             Destroy(gameObject);
         }
-        else if (collision.gameObject.tag == "Enemy")
+        else if (collision.gameObject.layer == 9) // Enemy layer
         {
             boxCollider.isTrigger = true;
+        }
+        if(collision.gameObject.layer == 11) // Layer named "Walls"
+        {
+            Instantiate(impactEffect, transform.position, transform.rotation);
+            Destroy(gameObject);
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.layer == 9) // Enemy layer
         {
             boxCollider.isTrigger = false;
         }

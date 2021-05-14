@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class EnemyDamageTaker : MonoBehaviour
 {
+
+
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            Debug.Log("We taken damage");
+            //health = -30;
+
         }
     }
 

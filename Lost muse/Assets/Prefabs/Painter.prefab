@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 1678198967}
   - component: {fileID: 383498308}
   - component: {fileID: 1848578395}
+  - component: {fileID: 2072731650}
   m_Layer: 7
   m_Name: Painter
   m_TagString: Player
@@ -234,6 +235,7 @@ MonoBehaviour:
   m_FacingRight: 1
   m_CanFlip: 1
   m_CanClimb: 1
+  offsetDisable: 0
   playerMovement: {fileID: 149840835328179281}
   m_WhatIsGround:
     serializedVersion: 2
@@ -351,8 +353,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.021329533, y: -0.09716518}
-  m_Size: {x: 0.05174377, y: 0.13}
+  m_Offset: {x: -0.023141861, y: -0.09293643}
+  m_Size: {x: 0.055368423, y: 0.1384575}
   m_Direction: 0
 --- !u!114 &383498308
 MonoBehaviour:
@@ -394,9 +396,18 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 2048
-  Ground:
-    serializedVersion: 2
-    m_Bits: 0
+--- !u!114 &2072731650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149840835328179288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f38116234c0a6a645b3b265e8e81c723, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &149840835710997093
 GameObject:
   m_ObjectHideFlags: 0
