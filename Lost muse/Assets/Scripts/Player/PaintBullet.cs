@@ -19,7 +19,7 @@ public class PaintBullet : MonoBehaviour
 
     void Update()
     {
-        if(characterController.m_CanShoot == true)
+        if(characterController.m_CanShoot == true && characterController.m_CanMove)
         {
             if (Input.GetButtonDown("Shoot"))
             {

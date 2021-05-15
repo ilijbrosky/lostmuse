@@ -9,11 +9,22 @@ public class EnemyPatroling : MonoBehaviour
     [SerializeField] private float distanceVisualRay; // Визуальная дистанция луча, который направлен вниз.
     [SerializeField] private float distanceToEnd; // Дистанция луча, который направлен вниз.
     [SerializeField] private Transform groundDetector;
-    [SerializeField] private LayerMask layerMask;
+    [SerializeField] private LayerMask layerMask, player;
     public bool isAttack = false;
     public bool isGround = true;
     public bool isRight = true;
-    private bool isMoving = true;
+    public bool isMoving = true;
+    public bool isCanRotate = true;
+
+    private Rigidbody2D rb2d;
+    public Collider2D colliderTouch;
+    
+
+    private void Awake()
+    {
+        colliderTouch = GetComponent<Collider2D>();
+        rb2d = GetComponent<Rigidbody2D>();
+    }
 
     void FixedUpdate()
     {
@@ -45,18 +56,41 @@ public class EnemyPatroling : MonoBehaviour
 
         }
         Debug.DrawRay(groundDetector.position, Vector3.down * distanceVisualRay, Color.red); // Вызуализация луча
+
+        FreezeEnemyPositon();
     }
+
+    private void FreezeEnemyPositon()
+    {
+        if (colliderTouch.IsTouchingLayers(player))
+        {
+            rb2d.constraints = RigidbodyConstraints2D.FreezeAll; // заморозка по трём позициям, когда коллайдер врага соприкасается с игроком.
+        }
+        else
+        {
+            rb2d.constraints = RigidbodyConstraints2D.None; // снятие заморозки по позициям.
+            rb2d.freezeRotation = true; // отключение возможности прокрутки врага в RigidBody
+        }
+    }
+
+
 
     public void LeftRotate()
     {
-        transform.eulerAngles = new Vector3(0, -180, 0); // Поворот, когда доходит до края платформы.
-        isRight = false;
+        if (isMoving && isCanRotate)
+        {
+            transform.eulerAngles = new Vector3(0, -180, 0); // Поворот, когда доходит до края платформы.
+            isRight = false;
+        }
     }
 
     public void RightRotate()
     {
-        transform.eulerAngles = new Vector3(0, 0, 0); // Поворот в начальную позицию, когда доходит до противоположного края платформы.
-        isRight = true;
+        if (isMoving && isCanRotate)
+        {
+            transform.eulerAngles = new Vector3(0, 0, 0); // Поворот в начальную позицию, когда доходит до противоположного края платформы.
+            isRight = true;
+        }
     }
 
     public void Calm()
@@ -65,7 +99,7 @@ public class EnemyPatroling : MonoBehaviour
         {
             if (isMoving == true)
             {
-                transform.Translate(Vector3.right * movingSpeed * Time.fixedDeltaTime); // Движение энеми в спокойном состоянии 
+                transform.Translate(Vector2.right * movingSpeed * Time.fixedDeltaTime); // Движение энеми в спокойном состоянии 
             }
         }
     }
@@ -76,7 +110,7 @@ public class EnemyPatroling : MonoBehaviour
         {
             if (isMoving == true)
             {
-                transform.Translate(Vector3.right * fastAttackMovingSpeed * Time.fixedDeltaTime); // Движение энеми во время атаки, контролируется переменной "attackingMovingSpeed"
+                transform.Translate(Vector2.right * fastAttackMovingSpeed * Time.fixedDeltaTime); // Движение энеми во время атаки, контролируется переменной "attackingMovingSpeed"
             }
         }
     }
@@ -85,6 +119,7 @@ public class EnemyPatroling : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            
             isMoving = false;
         }
     }
@@ -96,4 +131,5 @@ public class EnemyPatroling : MonoBehaviour
             isMoving = true;
         }
     }
+
 }

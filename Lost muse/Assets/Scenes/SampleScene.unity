@@ -148,11 +148,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 149840835328179287, guid: d69985df0a2f2c942b99b5903ea9c3c4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.187
+      value: -3.221
       objectReference: {fileID: 0}
     - target: {fileID: 149840835328179287, guid: d69985df0a2f2c942b99b5903ea9c3c4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.327
+      value: -0.31
       objectReference: {fileID: 0}
     - target: {fileID: 149840835328179287, guid: d69985df0a2f2c942b99b5903ea9c3c4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -189,10 +189,6 @@ PrefabInstance:
     - target: {fileID: 149840835328179288, guid: d69985df0a2f2c942b99b5903ea9c3c4, type: 3}
       propertyPath: m_Name
       value: Painter
-      objectReference: {fileID: 0}
-    - target: {fileID: 149840835328179288, guid: d69985df0a2f2c942b99b5903ea9c3c4, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d69985df0a2f2c942b99b5903ea9c3c4, type: 3}

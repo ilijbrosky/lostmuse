@@ -139,7 +139,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  damage: 40
   destroyTime: 0.4
   rb: {fileID: 5826583380716476626}
   impactEffect: {fileID: 4501917920878001009, guid: 4cebe852052bcf14ab46107ebfc2e5cd, type: 3}
@@ -157,7 +156,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.002077341, y: -0.004847303}
+  m_Offset: {x: 0.002077341, y: -0.033268005}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -168,5 +167,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.102564335, y: 0.07486567}
+  m_Size: {x: 0.102564335, y: 0.1958391}
   m_EdgeRadius: 0

@@ -7,23 +7,51 @@ public class ClimbingController : MonoBehaviour
     public Transform WallCheckUp;
     public Transform WallCheckDown;
     public Transform LedgeCorrect;
+    public Transform groundDetector;
     public CharacterController2D controller;
+    public LayerMask layerMask, whatIsGround;
 
     public bool onWallUp;
     public bool onWallDown;
     public bool onLedge;
+    public bool onLedgeUpping;
 
     public float wallCheckRayDistance = 1f;
+    public float distanceToGround = 1f;
 
+    private Animator anim;
 
-    public LayerMask whatIsGround;
-
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
 
     void FixedUpdate()
     {
         ChekingWall();
         ChekingLedge();
+
+        RaycastHit2D groundInfo = Physics2D.Raycast(groundDetector.position, -Vector3.up, distanceToGround, layerMask);
+        Debug.DrawRay(groundDetector.position, Vector3.down * distanceToGround, Color.red); // Вызуализация луча
+
+        if (groundInfo && onLedgeUpping && onLedge)
+        {
+            Debug.Log("1233");
+            anim.SetBool("isLedgeUp", true);
+            controller.m_CanMove = false;
+        }
     }
+
+    public void FinishUppingAnim()
+    {
+        transform.position = groundDetector.transform.position;
+        controller.m_CanMove = true;
+        onLedgeUpping = false;
+        anim.SetBool("isLedgeUp", false);
+    }
+
+
+
 
     private void ChekingWall()
     {
@@ -44,8 +72,8 @@ public class ClimbingController : MonoBehaviour
 
         if (onLedge)
         {
-            controller.m_CanFlip = false;
-            controller.m_ledge = true;
+            controller.m_CanFlip = false; //отключаем возможность поворота игрока, во время висения на уступе.
+            controller.m_ledge = true; 
         }
     }
 

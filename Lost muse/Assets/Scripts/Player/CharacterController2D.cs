@@ -27,6 +27,7 @@ public class CharacterController2D : MonoBehaviour
 	public bool m_FacingRight = true;  // For determining which way the player is currently facing.
 	public bool m_CanFlip = true;
 	public bool m_CanClimb = true;
+	public bool m_CanMove = true;
 	private bool m_Grounded;            // Whether or not the player is grounded.
 	public bool offsetDisable = false;           
 
@@ -94,29 +95,32 @@ public class CharacterController2D : MonoBehaviour
 
 	public void Grabbing()
     {
+        if (m_CanMove)
+        {
 
-		if (m_Grabbing && !m_ledge) // Wall grabbing controlling by PlayerMovement script(Input manager)
-		{
-			m_CanFlip = false;
-			anim.SetBool("isGrabbing", true);
-			anim.SetBool("IsJumping", false);
-			m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, m_grabSpeedModifier);
-			m_Rigidbody2D.gravityScale = 0;
-		}
-		else if (!m_Grabbing)
-		{
-			m_Rigidbody2D.gravityScale = 1;
-			anim.SetBool("isGrabbing", false);
-			anim.SetBool("isLedge", false);
-			m_ledge = false;
-			m_CanFlip = true;
+			if (m_Grabbing && !m_ledge && m_CanMove) // Wall grabbing controlling by PlayerMovement script(Input manager)
+			{
+				m_CanFlip = false;
+				anim.SetBool("isGrabbing", true);
+				anim.SetBool("IsJumping", false);
+				m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, m_grabSpeedModifier);
+				m_Rigidbody2D.gravityScale = 0;
+			}
+			else if (!m_Grabbing)
+			{
+				m_Rigidbody2D.gravityScale = 1;
+				anim.SetBool("isGrabbing", false);
+				anim.SetBool("isLedge", false);
+				m_ledge = false;
+				m_CanFlip = true;
+			}
 		}
 	}
 
 	public void LedgeDetector()
     {
 		
-		if (m_ledge && m_CanClimb)
+		if (m_ledge && m_CanClimb && m_CanMove)
 		{
 			anim.SetBool("isLedge", true);
 			anim.SetBool("IsJumping", false);
@@ -138,7 +142,7 @@ public class CharacterController2D : MonoBehaviour
 			if (colliders[i].gameObject != gameObject)
 			{
 				m_Grounded = true;
-				if (m_Grounded && !m_wasCrouching) // When Player stay on the ground and not crouching
+				if (m_Grounded && !m_wasCrouching && m_CanMove) // When Player stay on the ground and not crouching
 				{
 					offsetDisable = false;
 					m_CanClimb = true;
@@ -152,103 +156,106 @@ public class CharacterController2D : MonoBehaviour
 
     public void Move(float move, bool crouch, bool jump)
 	{
-		if (!m_Grounded && !m_wasCrouching && !m_Grabbing)
-		{
-			anim.SetBool("IsJumping", true);
-			m_CanShoot = false;
-		}
-		// If crouching, check to see if the character can stand up
-		if (!crouch)
-		{
-			// If the character has a ceiling preventing them from standing up, keep them crouching
-			if (Physics2D.OverlapCircle(m_CeilingCheck.position, k_CeilingRadius, m_WhatIsGround))
+        if (m_CanMove)
+        {
+			if (!m_Grounded && !m_wasCrouching && !m_Grabbing)
 			{
-				if (m_sit)
-				{
-					crouch = true;
-				}
-			}
-		}
-
-		//only control the player if grounded or airControl is turned on
-		if (m_Grounded || !m_AirControl)
-		{
-
-			// If crouching
-			if (crouch)
-			{
+				anim.SetBool("IsJumping", true);
 				m_CanShoot = false;
-				if (!m_wasCrouching)
-				{
-
-					m_wasCrouching = true;
-					OnCrouchEvent.Invoke(true);
-					anim.SetBool("IsCrouching", true);
-				}
-
-				// Reduce the speed by the crouchSpeed multiplier
-				move *= m_CrouchSpeed;
-
-				// Disable one of the colliders when crouching
-				if (m_CrouchDisableCollider != null)
-				{
-					m_CrouchDisableCollider.enabled = false;
-				}
 			}
-			else
+			// If crouching, check to see if the character can stand up
+			if (!crouch)
 			{
-				// Enable the collider when not crouching
-				if (m_CrouchDisableCollider != null)
+				// If the character has a ceiling preventing them from standing up, keep them crouching
+				if (Physics2D.OverlapCircle(m_CeilingCheck.position, k_CeilingRadius, m_WhatIsGround))
 				{
-					m_CrouchDisableCollider.enabled = true;
-					m_sit = false;
-					crouch = false;
+					if (m_sit)
+					{
+						crouch = true;
+					}
+				}
+			}
+
+			//only control the player if grounded or airControl is turned on
+			if (m_Grounded || !m_AirControl)
+			{
+
+				// If crouching
+				if (crouch)
+				{
+					m_CanShoot = false;
+					if (!m_wasCrouching)
+					{
+
+						m_wasCrouching = true;
+						OnCrouchEvent.Invoke(true);
+						anim.SetBool("IsCrouching", true);
+					}
+
+					// Reduce the speed by the crouchSpeed multiplier
+					move *= m_CrouchSpeed;
+
+					// Disable one of the colliders when crouching
+					if (m_CrouchDisableCollider != null)
+					{
+						m_CrouchDisableCollider.enabled = false;
+					}
+				}
+				else
+				{
+					// Enable the collider when not crouching
+					if (m_CrouchDisableCollider != null)
+					{
+						m_CrouchDisableCollider.enabled = true;
+						m_sit = false;
+						crouch = false;
+					}
+
+
+					if (m_wasCrouching)
+					{
+						m_sit = false;
+						m_wasCrouching = false;
+						OnCrouchEvent.Invoke(false);
+					}
+					anim.SetBool("IsCrouching", false);
 				}
 
+				// Move the character by finding the target velocity
+				//Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
+				//m_Rigidbody2D.velocity = targetVelocity;
 
-				if (m_wasCrouching)
+
+				Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
+				// And then smoothing it out and applying it to the character
+				m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, move * Time.deltaTime);
+
+				// If the input is moving the player right and the player is facing left...
+				if (move > 0 && !m_FacingRight)
 				{
-					m_sit = false;
-					m_wasCrouching = false;
-					OnCrouchEvent.Invoke(false);
+					// ... flip the player.
+					Flip();
 				}
-				anim.SetBool("IsCrouching", false);
+				// Otherwise if the input is moving the player left and the player is facing right...
+				else if (move < 0 && m_FacingRight)
+				{
+					// ... flip the player.
+					Flip();
+				}
 			}
-
-			// Move the character by finding the target velocity
-			//Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
-			//m_Rigidbody2D.velocity = targetVelocity;
-
-
-			Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
-			// And then smoothing it out and applying it to the character
-			m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, move * Time.deltaTime);
-
-			// If the input is moving the player right and the player is facing left...
-			if (move > 0 && !m_FacingRight)
+			// If the player should jump...
+			if (m_Grounded && jump && !m_sit)
 			{
-				// ... flip the player.
-				Flip();
+				// Add a vertical force to the player.
+				m_Grounded = false;
+				m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
 			}
-			// Otherwise if the input is moving the player left and the player is facing right...
-			else if (move < 0 && m_FacingRight)
-			{
-				// ... flip the player.
-				Flip();
-			}
-		}
-		// If the player should jump...
-		if (m_Grounded && jump)
-		{
-			// Add a vertical force to the player.
-			m_Grounded = false;
-			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
 		}
 	}
 
 	private void Flip()
 	{
-        if (m_CanFlip)
+        if (m_CanFlip && m_CanMove)
         {
 			// Switch the way the player is labelled as facing.
 			m_FacingRight = !m_FacingRight;
@@ -260,11 +267,11 @@ public class CharacterController2D : MonoBehaviour
 
 	private void GrabbingBlock()
     {
-		if(m_LeftWall && m_FacingRight)
+		if(m_LeftWall && m_FacingRight && m_CanMove)
         {
 			m_Grabbing = false;
         }
-		else if (m_RightWall && !m_FacingRight)
+		else if (m_RightWall && !m_FacingRight && m_CanMove)
 		{
 			m_Grabbing = false;
 		}

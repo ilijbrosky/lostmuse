@@ -16,20 +16,34 @@ public class PlayerDetector : MonoBehaviour
     
     RaycastHit2D hit, backHit, fastAttackHit;
 
-    private void Start()
+    private void Awake()
     {
         boxCollider = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
     }
 
-
     private void Update()
     {
+        if (patrolingScript.isMoving)
+        {
+        IsFastAttacking();
+        ForwardAttacking();
+        IsBackRay();
+        }
+
+        if (Physics2D.IsTouchingLayers(boxCollider, LayerMask.GetMask("Painter")))
+        {
+            anim.SetBool("isPlayer", true);
+            patrolingScript.isAttack = true;
+        }
+
         hit = Physics2D.Raycast(transform.position, transform.right, rayCastLength, layerMask); // Луч, который выпущен в направлении движения врага. Реагирует на Слой установленный в Layer Mask. 
         backHit = Physics2D.Raycast(transform.position, -transform.right, backRayCastLength, layerMask); // Луч, который выпущен со спины врага и проверяет наявность игрока за спиной врага.
         fastAttackHit = Physics2D.Raycast(fastAttackDetector.position, transform.right, fastAttackLength, layerMask); // Луч, выпущен в направлении движения врага, для срабатывания рывка.
+    }
 
-
+    private void ForwardAttacking()
+    {
         if (hit.collider != null) // Если луч попал в коллайдер, который принадлежит к установленному в Layer Mask слою. Выполняет условие.
         {
             anim.SetBool("isPlayer", true);
@@ -37,31 +51,22 @@ public class PlayerDetector : MonoBehaviour
             isReadyFastAttack = false; // Выключение красного луча, чтобы не было конфликта между зелёным и красным лучом.
             anim.SetBool("isFastAttack", false);
         }
-        else if(hit.collider == null) 
+        else if (hit.collider == null)
         {
             patrolingScript.isAttack = false;
             anim.SetBool("isPlayer", false);
             isReadyFastAttack = true; // Включение луча красного луча, когда персонаж покидает область видимости зелёного луча. 
-            patrolingScript.isAttack = false;
         }
-        if(backHit.collider != null) // Проверка луча, который выпущен со спины врага. На наличие игрока за спиной врага. 
-        {
-            if(patrolingScript.isRight == true)
-            {
-                patrolingScript.isAttack = true;
-                patrolingScript.LeftRotate(); // Если игрок за спиной врага. И враг движется вправо. Здесь срабатывает поворот врага в сторону игрока.
-            }
-            else if(patrolingScript.isRight != true)
-            {
-                patrolingScript.isAttack = false;
-                patrolingScript.RightRotate(); // Если игрок за спиной врага. И враг движется влево. Здесь срабатывает поворот врага в сторону игрока.
-            }
-        }
-        if(isReadyFastAttack == true) // Проверка, может ли враг быстро атаковать или нет. Скорость движения во время атаки регулируется в инспекторе.
+        Debug.DrawRay(transform.position, transform.right * rayCastLength, Color.green); // Вызуализация луча, который выпущен впереди врага, для обычной атаки.
+
+    }
+
+    private void IsFastAttacking()
+    {
+        if (isReadyFastAttack == true) // Проверка, может ли враг быстро атаковать или нет. Скорость движения во время атаки регулируется в инспекторе.
         {
             if (fastAttackHit.collider != null)  // Проверка луча, который выпущен впереди врага, для обнаружения игрока. Если игрок обнаружен, срабатывает рывок.
             {
-                
                 patrolingScript.isAttack = true;
                 anim.SetBool("isFastAttack", true);
             }
@@ -71,15 +76,26 @@ public class PlayerDetector : MonoBehaviour
                 anim.SetBool("isFastAttack", false);
             }
         }
-
-        if (Physics2D.IsTouchingLayers(boxCollider, LayerMask.GetMask("Painter")))
-        {
-            anim.SetBool("isPlayer", true);
-            patrolingScript.isAttack = true;
-        }
-
-        Debug.DrawRay(transform.position, transform.right * rayCastLength, Color.green); // Вызуализация луча, который выпущен впереди врага, для обычной атаки.
-        Debug.DrawRay(transform.position, -transform.right * backRayCastLength, Color.yellow); // Вызуализация луча, который выпущен сзади врага, для обнаружения игрока.
         Debug.DrawRay(fastAttackDetector.position, transform.right * fastAttackLength, Color.red); // Вызуализация луча, который выпущен впереди врага, для рывка.
     }
+
+    private void IsBackRay()
+    {
+        if (backHit.collider != null) // Проверка луча, который выпущен со спины врага. На наличие игрока за спиной врага. 
+        {
+            if (patrolingScript.isRight == true)
+            {
+                patrolingScript.isAttack = true;
+                patrolingScript.LeftRotate(); // Если игрок за спиной врага. И враг движется вправо. Здесь срабатывает поворот врага в сторону игрока.
+            }
+            else if (patrolingScript.isRight != true)
+            {
+                patrolingScript.isAttack = false;
+                patrolingScript.RightRotate(); // Если игрок за спиной врага. И враг движется влево. Здесь срабатывает поворот врага в сторону игрока.
+            }
+        }
+        Debug.DrawRay(transform.position, -transform.right * backRayCastLength, Color.yellow); // Вызуализация луча, который выпущен сзади врага, для обнаружения игрока.
+
+    }
+
 }

@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
 
 	public CharacterController2D controller;
+	public ClimbingController ClimbingController;
 	public Animator animator;
 
     [SerializeField] private float runSpeed;
@@ -14,41 +15,64 @@ public class PlayerMovement : MonoBehaviour
 	private bool jump = false;
 	private bool crouch = false;
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
-        animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
-
-        if (Input.GetButtonDown("Jump"))
+        if (controller.m_CanMove)
         {
-            jump = true;
-            controller.m_CanClimb = false;
-            controller.offsetDisable = true;
-        }
-
-        if (Input.GetButtonDown("Crouch"))
-        {
-            crouch = true;
-            controller.m_sit = true;
-        }
-
-        else if (Input.GetButtonUp("Crouch")) 
-        {
-
-            crouch = false;
-        }
-
-        if (controller.m_Wall && Input.GetButtonDown("Grab"))
-        {
-            controller.m_Grabbing = true;
-            controller.LedgeDetector();
-        }
-        else if (!controller.m_Wall || Input.GetButtonUp("Grab"))
-        {
-            controller.m_Grabbing = false;
+            // Move our character
+            controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
+            jump = false;
         }
     }
+
+    void Update()
+    {
+        if (controller.m_CanMove)
+        {
+            horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+            animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                jump = true;
+                controller.m_CanClimb = false;
+                controller.offsetDisable = true;
+            }
+
+            if (Input.GetButtonDown("Crouch"))
+            {
+                crouch = true;
+                controller.m_sit = true;
+            }
+
+            else if (Input.GetButtonUp("Crouch"))
+            {
+
+                crouch = false;
+            }
+
+            if (controller.m_Wall && Input.GetButtonDown("Grab"))
+            {
+                controller.m_Grabbing = true;
+                controller.LedgeDetector();
+            }
+            else if (!controller.m_Wall || Input.GetButtonUp("Grab"))
+            {
+                controller.m_Grabbing = false;
+            }
+
+            if (Input.GetButtonDown("LedgeUpping"))
+            {
+                ClimbingController.onLedgeUpping = true;
+
+            }
+            if (Input.GetButtonUp("LedgeUpping"))
+            {
+                ClimbingController.onLedgeUpping = false;
+            }
+        }
+    }
+
 
     public void OnCrouching(bool isCrouching)
     {
@@ -56,10 +80,9 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
     }
 
-    void FixedUpdate()
-    {
-        // Move our character
-        controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
-        jump = false;
-    }
+
+
+
+
+
 }
