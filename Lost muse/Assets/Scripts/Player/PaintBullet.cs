@@ -6,10 +6,14 @@ public class PaintBullet : MonoBehaviour
 {
     public Transform bulletPoint;
     public GameObject bulletPrefab;
-    private Animator anim;
-    [SerializeField] private float fireRate;
-    private float nextFire;
     public CharacterController2D characterController;
+    private Animator anim;
+    
+    private float nextFire;
+    [SerializeField] private float fireRate;
+    [SerializeField] private int fireCount;
+
+
 
     private void Start()
     {
@@ -19,13 +23,20 @@ public class PaintBullet : MonoBehaviour
 
     void Update()
     {
-        if(characterController.m_CanShoot == true && characterController.m_CanMove)
+        if (characterController.m_CanShoot == true && characterController.m_CanMove)
         {
             if (Input.GetButtonDown("Shoot"))
             {
-                Shoot();
+
+                for(int i = 0; i < fireCount; i++)
+                {
+                    Shoot();
+                }
+
             }
         }
+        
+
     }
     void Shoot()
     {
@@ -34,6 +45,7 @@ public class PaintBullet : MonoBehaviour
             nextFire = Time.time + fireRate;
             Instantiate(bulletPrefab, bulletPoint.position, bulletPoint.rotation);
             anim.SetTrigger("Attack");
+            fireCount--;
         }
         
     }

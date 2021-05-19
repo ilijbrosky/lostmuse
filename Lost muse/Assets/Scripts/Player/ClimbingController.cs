@@ -36,7 +36,6 @@ public class ClimbingController : MonoBehaviour
 
         if (groundInfo && onLedgeUpping && onLedge)
         {
-            Debug.Log("1233");
             anim.SetBool("isLedgeUp", true);
             controller.m_CanMove = false;
         }
@@ -73,7 +72,7 @@ public class ClimbingController : MonoBehaviour
         if (onLedge)
         {
             controller.m_CanFlip = false; //отключаем возможность поворота игрока, во время висения на уступе.
-            controller.m_ledge = true; 
+            controller.m_ledge = true;
         }
     }
 

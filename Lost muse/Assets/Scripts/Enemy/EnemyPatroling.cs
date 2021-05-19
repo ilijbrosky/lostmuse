@@ -30,10 +30,12 @@ public class EnemyPatroling : MonoBehaviour
     {
         if (isAttack == false)
         {
+            isCanRotate = true;
             Calm();
         }
         else if (isAttack == true)
         {
+            isCanRotate = false;
             FastAttacking();
         }
         RaycastHit2D groundInfo = Physics2D.Raycast(groundDetector.position, -Vector3.up, distanceToEnd, layerMask); // Луч, который направлен вниз, для обнаружения платформы

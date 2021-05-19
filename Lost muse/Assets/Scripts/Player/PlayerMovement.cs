@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
                 controller.m_Grabbing = true;
                 controller.LedgeDetector();
             }
-            else if (!controller.m_Wall || Input.GetButtonUp("Grab"))
+            else if (!controller.m_Wall || Input.GetButtonUp("Grab") && !ClimbingController.onLedge)
             {
                 controller.m_Grabbing = false;
             }
@@ -68,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
             }
             if (Input.GetButtonUp("LedgeUpping"))
             {
-                ClimbingController.onLedgeUpping = false;
+               ClimbingController.onLedgeUpping = false;
             }
         }
     }
